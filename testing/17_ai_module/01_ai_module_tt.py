@@ -14,28 +14,24 @@
 # limitations under the License.
 
 
+import time
 from robomaster import robot
 
 
+def sub_ia_info_handler(ai_info):
+    id, x, y, w, h, C = ai_info
+    print("ai target id:{0}, x:{1:.3f}, y:{2:.3f}, w:{3:.3f}, h:{4:.3f}, C:{5}".format(id, x, y, w, h, C))
+
+
 if __name__ == '__main__':
-    ep_robot = robot.Robot()
-    ep_robot.initialize(conn_type="sta")
+    tl_drone = robot.Drone()
+    tl_drone.initialize()
 
-    ep_sensor_adaptor = ep_robot.sensor_adaptor
+    # 订阅AI模块信息
+    tl_drone.ai_module.sub_ai_info(freq=5, callback=sub_ia_info_handler)
+    time.sleep(60)
 
-    # 获取传感器转接板adc值
-    adc = ep_sensor_adaptor.get_adc(id=1, port=1)
-    print("sensor adapter id1-port1 adc is {0}".format(adc))
+    # 取消订阅
+    tl_drone.ai_module.unsub_ai_info()
 
-    # 获取传感器转接板io电平
-    io = ep_sensor_adaptor.get_io(id=1, port=1)
-    print("sensor adapter id1-port1 io is {0}".format(io))
-
-    # 获取传感器转接板io电平持续时间
-    duration = ep_sensor_adaptor.get_pulse_period(id=1, port=1)
-    print("sensor adapter id1-port1 duration is {0}ms".format(duration))
-
-    ep_robot.close()
-
-
-
+    tl_drone.close()
