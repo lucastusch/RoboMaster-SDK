@@ -1,12 +1,6 @@
-import time
 import csv
 import robomaster
 
-
-# def sub_data_handler(sub_info):
-#     io_data, ad_data = sub_info
-#     # print(f"ad value: {ad_data[4]} {ad_data[5]}")  # [4] right sensor & [5] left sensor
-#     print(f"ad values: {ad_data}")
 
 def get_ad_data(port_id: int, port: int):
     adc: int = ep_sensor_adaptor.get_adc(id=port_id, port=port)
@@ -41,10 +35,6 @@ def write_data_in_csv(name: str, header: list, content: dict):
 
 
 def main():
-    track_data_file: str = "track_data.csv"
-    track_data_file_headers: list = ["right sensor", "mid sensor", "left sensor"]
-    init_csv(track_data_file, track_data_file_headers)
-
     measurements_data_file: str = "measurements_data.csv"
     measurements_data_file_headers: list = ["voltage", "current", "temperature left", "temperature right"]
     init_csv(measurements_data_file, measurements_data_file_headers)
@@ -60,9 +50,6 @@ def main():
         current: int = get_ad_data(3, 2)
         temperature_left: int = get_ad_data(4, 1)
         temperature_right: int = get_ad_data(4, 2)
-
-        write_data_in_csv(track_data_file, track_data_file_headers, {"right_sensor": right_sensor, "mid_sensor":
-            mid_sensor, "left_sensor": left_sensor})
 
         write_data_in_csv(measurements_data_file, measurements_data_file_headers, {"voltage": voltage, "current":
             current, "temperature left": temperature_left, "temperature right": temperature_right})
