@@ -1,12 +1,6 @@
-import time
 import csv
 import robomaster
 
-
-# def sub_data_handler(sub_info):
-#     io_data, ad_data = sub_info
-#     # print(f"ad value: {ad_data[4]} {ad_data[5]}")  # [4] right sensor & [5] left sensor
-#     print(f"ad values: {ad_data}")
 
 def get_ad_data(port_id: int, port: int):
     adc: int = ep_sensor_adaptor.get_adc(id=port_id, port=port)
@@ -24,7 +18,7 @@ def drive_handler(right: int, mid: int, left: int):
     elif right < 700 & mid < 700 & left > 700:  # robot drives to the left of the track
         ep_chassis.move(x=0.05, y=-0.025, z=0, xy_speed=0.4).wait_for_completed()
 
-    else:  # robot's position unknown
+    else:  # position of robot unknown
         print("No track found.")
 
 
@@ -45,10 +39,6 @@ def main():
     track_data_file_headers: list = ["right sensor", "mid sensor", "left sensor"]
     init_csv(track_data_file, track_data_file_headers)
 
-    measurements_data_file: str = "measurements_data.csv"
-    measurements_data_file_headers: list = ["voltage", "current", "temperature left", "temperature right"]
-    init_csv(measurements_data_file, measurements_data_file_headers)
-
     while True:
         right_sensor: int = get_ad_data(1, 1)
         mid_sensor: int = get_ad_data(1, 2)
@@ -56,16 +46,8 @@ def main():
 
         drive_handler(right_sensor, mid_sensor, left_sensor)
 
-        voltage: int = get_ad_data(3, 1)
-        current: int = get_ad_data(3, 2)
-        temperature_left: int = get_ad_data(4, 1)
-        temperature_right: int = get_ad_data(4, 2)
-
         write_data_in_csv(track_data_file, track_data_file_headers, {"right_sensor": right_sensor, "mid_sensor":
             mid_sensor, "left_sensor": left_sensor})
-
-        write_data_in_csv(track_data_file, track_data_file_headers, {"voltage": voltage, "current":
-            current, "temperature left": temperature_left, "temperature right": temperature_right})
 
 
 if __name__ == '__main__':
