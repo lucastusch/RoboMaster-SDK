@@ -3,11 +3,6 @@ import csv
 import robomaster
 
 
-# def sub_data_handler(sub_info):
-#     io_data, ad_data = sub_info
-#     # print(f"ad value: {ad_data[4]} {ad_data[5]}")  # [4] right sensor & [5] left sensor
-#     print(f"ad values: {ad_data}")
-
 def get_ad_data(port_id: int, port: int):
     adc: int = ep_sensor_adaptor.get_adc(id=port_id, port=port)
     print(f"Sensor adapter {port_id}-{port} adc is {adc}.")
