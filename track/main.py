@@ -15,14 +15,14 @@ def get_ad_data(port_id: int, port: int):
 
 
 def drive_handler(right: int, mid: int, left: int):
-    if right < 700 & mid > 700 & left < 700:  # robot drives on track
+    if right < 303 & mid > 303 & left < 303:  # robot drives on track
         ep_chassis.move(x=0.05, y=0, z=0, xy_speed=0.4).wait_for_completed()
 
-    elif right > 700 & mid < 700 & left < 700:  # robot drives to the right of the track
-        ep_chassis.move(x=0.05, y=0.025, z=0, xy_speed=0.4).wait_for_completed()
+    elif right > 303 & mid < 303 & left < 303:  # robot drives to the right of the track
+        ep_chassis.move(x=0.05, y=0.007, z=0, xy_speed=0.4).wait_for_completed()
 
-    elif right < 700 & mid < 700 & left > 700:  # robot drives to the left of the track
-        ep_chassis.move(x=0.05, y=-0.025, z=0, xy_speed=0.4).wait_for_completed()
+    elif right < 303 & mid < 303 & left > 303:  # robot drives to the left of the track
+        ep_chassis.move(x=0.05, y=-0.007, z=0, xy_speed=0.4).wait_for_completed()
 
     else:  # robot's position unknown
         print("No track found.")
